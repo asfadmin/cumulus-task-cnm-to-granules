@@ -3,6 +3,8 @@
 
 # Tools
 .tox
+.terraform
+terraform.tfstate*
 
 # Build
 build
