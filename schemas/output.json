@@ -1,0 +1,55 @@
+{
+  "title": "CnmToGranulesOutput",
+  "description": "Describes the output produced by the cnm-to-granules task",
+  "type": "object",
+  "required": ["granules", "cnm"],
+  "properties": {
+    "granules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["granuleId", "files"],
+        "properties": {
+          "granuleId": {"type": "string"},
+          "dataType": {"type": "string"},
+          "version": {"type": "string"},
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "path"],
+              "properties": {
+                "name": {
+                  "description": "name of file to be synced",
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "source_bucket": {
+                  "description": "optional - alternate source bucket to use for this file instead of the provider bucket.  Works with s3 provider only, ignored for other providers",
+                  "type": "string"
+                },
+                "path": {
+                  "description": "provider path of file to be synced",
+                  "type": "string"
+                },
+                "checksum": {
+                  "description": "Checksum value for file",
+                  "type": "string"
+                },
+                "checksumType": {
+                  "description": "Type of checksum (e.g. md5, sha256, etc)",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cnm": {
+      "type": "object"
+    }
+  }
+}
