@@ -1,5 +1,8 @@
 # Python
 *.pyc
 
+# Tools
+.tox
+
 # Build
 build
