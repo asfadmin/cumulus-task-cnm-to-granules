@@ -9,7 +9,7 @@ terraform {
 }
 
 
-module "cnm_to_cma_task" {
+module "cnm_to_granules_task" {
   source = "../build/terraform"
 
   prefix                     = var.prefix
@@ -17,6 +17,6 @@ module "cnm_to_cma_task" {
   lambda_security_group_ids  = local.lambda_security_group_ids
   lambda_processing_role_arn = data.terraform_remote_state.cumulus.outputs.lambda_processing_role_arn
   tags = {
-    Deployment = "cnm_to_cma_task example"
+    Deployment = "cnm_to_granules_task example"
   }
 }
