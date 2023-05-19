@@ -20,3 +20,83 @@ var.DEPLOY_NAME
 var.prefix
   Enter a value: example-cumulus-dev
 ```
+
+## Usage Example
+To use the task, add it as the first step in your ingest workflow followed by
+SyncGranule.
+
+```json
+{
+  "Comment": "Example CNM Ingest Workflow",
+  "StartAt": "CnmToGranules",
+  "States": {
+    "CnmToGranules": {
+      "Type": "Task",
+      "Resource": "${CnmToGranulesArn}",
+      "Parameters": {
+        "cma": {
+          "event.$": "$",
+          "task_config": {
+            "cumulus_message": {
+              "outputs": [
+                {
+                  "source": "{$.granules}",
+                  "destination": "{$.payload.granules}"
+                },
+                {
+                  "source": "{$.cnm}",
+                  "destination": "{$.meta.cnm}"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "Next": "SyncGranule"
+    },
+    "SyncGranule": {
+      "Type": "Task",
+      "Resource": "${SyncGranuleArn}",
+      "Parameters": {
+        "cma": {
+          "event.$": "$",
+          "task_config": {
+            "ACL": "disabled",
+            "buckets": "{$.meta.buckets}",
+            "stack": "{$.meta.stack}",
+            "downloadBucket": "{$.meta.buckets.products.name}",
+            "duplicateHandling": "{$.meta.collection.duplicateHandling}",
+            "provider": "{$.meta.provider}",
+            "collection": "{$.meta.collection}",
+            "workflowStartTime": "{$.cumulus_meta.workflow_start_time}",
+            "syncChecksumFiles": true
+          },
+          "cumulus_message": {
+            "input": "{$.payload}",
+            "outputs": [
+              {
+                "source": "{$.granules}",
+                "destination": "{$.meta.input_granules}"
+              },
+              {
+                "source": "{$}",
+                "destination": "{$.payload}"
+              },
+              {
+                "source": "{$.process}",
+                "destination": "{$.meta.process}"
+              }
+            ]
+          }
+        }
+      },
+      "End": true
+    },
+    "WorkflowFailed": {
+      "Type": "Fail",
+      "Cause": "Workflow failed"
+    }
+  }
+}
+
+```
