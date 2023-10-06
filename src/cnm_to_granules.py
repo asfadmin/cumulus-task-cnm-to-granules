@@ -32,6 +32,7 @@ def cnm_file_to_granules_file(file: dict) -> dict:
         "source_bucket": parsed_uri.netloc,
         "path": key_prefix[1:],
         "name": file["name"],
+        "size": file["size"],
         "type": file["type"],
         "checksum": file["checksum"],
         "checksumType": file["checksumType"]
