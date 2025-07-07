@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2
+        uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 0.13.7
+          terraform_version: 1.5
       - name: Terraform fmt
         id: fmt
         run: terraform fmt -recursive -diff -check
@@ -20,7 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - uses: TrueBrain/actions-flake8@v2
         with:
           flake8_version: 6.0.0

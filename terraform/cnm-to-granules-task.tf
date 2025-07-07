@@ -4,7 +4,7 @@ resource "aws_lambda_function" "cnm_to_granules_task" {
   source_code_hash = filebase64sha256("${path.module}/lambda.zip")
   handler          = "cnm_to_granules.lambda_handler"
   role             = var.lambda_processing_role_arn
-  runtime          = "python3.9"
+  runtime          = "python3.11"
   timeout          = var.timeout
   memory_size      = var.memory_size
 
